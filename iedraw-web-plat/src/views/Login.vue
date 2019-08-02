@@ -1,6 +1,6 @@
 <template>
   <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-    <h3 class="title">系统登录</h3>
+    <h3 class="title">江小白抽奖-系统登录</h3>
     <el-form-item prop="account">
       <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
@@ -24,7 +24,7 @@
         logining: false,
         ruleForm2: {
           account: 'admin',
-          checkPass: '123456'
+          checkPass: 'admin123'
         },
         rules2: {
           account: [
@@ -43,6 +43,7 @@
       handleReset2() {
         this.$refs.ruleForm2.resetFields();
       },
+      //登录方法
       handleSubmit2(ev) {
         var _this = this;
         this.$refs.ruleForm2.validate((valid) => {
@@ -51,20 +52,38 @@
             this.logining = true;
             //NProgress.start();
             var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
-              this.logining = false;
-              //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
-                });
-              } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
-              }
-            });
+
+            // requestLogin(loginParams).then(data => {
+            //   this.logining = false;
+            //   //NProgress.done();
+            //   let { msg, code, user } = data;
+            //   if (code !== 200) {
+            //     this.$message({
+            //       message: msg,
+            //       type: 'error'
+            //     });
+            //   } else {
+            //     sessionStorage.setItem('user', JSON.stringify(user));
+            //     this.$router.push({ path: '/table' });
+            //   }
+            // });
+            this.$http.post("/plat/login",loginParams)
+                    .then((res)=> {
+                        this.logining = false;
+                      console.log(res);
+                        //NProgress.done();
+                        let { message, success, retObj } = res.data;
+                        if (!success) {
+                          this.$message({
+                            message: message,
+                            type: 'error'
+                          });
+                        } else {
+                          sessionStorage.setItem('user', JSON.stringify(retObj));
+                          this.$router.push({ path: '/table' });
+                        }
+                    })
+
           } else {
             console.log('error submit!!');
             return false;

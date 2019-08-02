@@ -10,9 +10,16 @@ import Vuex from 'vuex'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
 import routes from './routes'
-import Mock from './mock'
-Mock.bootstrap();
+
 import 'font-awesome/css/font-awesome.min.css'
+
+//全局引入axios
+import axios from 'axios';
+// 引用axios，并设置基础URL为后端服务api地址
+axios.defaults.baseURL = 'http://127.0.0.1:9001/services'  //对应后端网关统一地址
+
+Vue.prototype.$http = axios
+
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

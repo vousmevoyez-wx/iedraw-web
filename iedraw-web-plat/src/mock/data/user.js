@@ -1,14 +1,15 @@
 import Mock from 'mockjs';
+//登录用户
 const LoginUsers = [
   {
     id: 1,
     username: 'admin',
-    password: '123456',
+    password: 'admin123',
     avatar: 'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png',
-    name: '张某某'
+    name: '管理员'
   }
 ];
-
+//用户
 const Users = [];
 
 for (let i = 0; i < 86; i++) {
